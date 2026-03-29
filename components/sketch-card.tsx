@@ -52,6 +52,11 @@ export function SketchCard({
             <h3 className="m-0 text-[15px] font-semibold text-zinc-200 font-mono">
               {sketch.title}
             </h3>
+            {sketch.category && (
+              <span className="text-[11px] text-amber-500/60 font-mono uppercase tracking-wide">
+                {sketch.category}
+              </span>
+            )}
             {sketch.bpm && (
               <span className="text-[11px] text-zinc-600 font-mono">
                 {sketch.bpm} bpm

@@ -2,6 +2,7 @@
 
 import { useState, useRef } from "react";
 import { Sketch } from "@/lib/types";
+import { decodeStrudelURL } from "@/lib/utils";
 import { TagPill } from "./tag-pill";
 import { ActionBtn } from "./action-btn";
 
@@ -12,6 +13,7 @@ interface EditorModalProps {
     code: string;
     bpm: string;
     tags: string[];
+    category: string;
   }) => void;
   onClose: () => void;
 }
@@ -22,7 +24,9 @@ export function EditorModal({ sketch, onSave, onClose }: EditorModalProps) {
   const [bpm, setBpm] = useState(sketch?.bpm ?? "");
   const [tagInput, setTagInput] = useState("");
   const [tags, setTags] = useState<string[]>(sketch?.tags ?? []);
+  const [category, setCategory] = useState(sketch?.category ?? "");
   const codeRef = useRef<HTMLTextAreaElement>(null);
+  const urlRef = useRef<HTMLInputElement>(null);
 
   const addTag = () => {
     const t = tagInput.trim().toLowerCase();
@@ -39,6 +43,7 @@ export function EditorModal({ sketch, onSave, onClose }: EditorModalProps) {
       code: code.trim(),
       bpm: bpm.trim(),
       tags,
+      category: category.trim().toLowerCase(),
     });
   };
 
@@ -56,7 +61,7 @@ export function EditorModal({ sketch, onSave, onClose }: EditorModalProps) {
         </h2>
 
         <div className="flex flex-col gap-4">
-          {/* Title + BPM */}
+          {/* Title + BPM + Category */}
           <div className="flex gap-3">
             <input
               value={title}
@@ -69,6 +74,12 @@ export function EditorModal({ sketch, onSave, onClose }: EditorModalProps) {
               onChange={(e) => setBpm(e.target.value)}
               placeholder="bpm"
               className="w-20 px-3.5 py-2.5 bg-zinc-900 border border-zinc-800 rounded text-sm font-mono text-zinc-200 outline-none focus:border-zinc-700 placeholder:text-zinc-600"
+            />
+            <input
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              placeholder="category"
+              className="w-32 px-3.5 py-2.5 bg-zinc-900 border border-zinc-800 rounded text-sm font-mono text-zinc-200 outline-none focus:border-zinc-700 placeholder:text-zinc-600"
             />
           </div>
 
@@ -90,6 +101,35 @@ export function EditorModal({ sketch, onSave, onClose }: EditorModalProps) {
               onKeyDown={(e) => e.key === "Enter" && addTag()}
               placeholder="add tag + enter"
               className="w-full px-3.5 py-2.5 bg-zinc-900 border border-zinc-800 rounded text-sm font-mono text-zinc-200 outline-none focus:border-zinc-700 placeholder:text-zinc-600"
+            />
+          </div>
+
+          {/* Import from Strudel URL */}
+          <div className="flex gap-2">
+            <input
+              ref={urlRef}
+              placeholder="paste strudel.cc link to import code"
+              className="flex-1 px-3.5 py-2.5 bg-zinc-900 border border-zinc-800 rounded text-sm font-mono text-zinc-200 outline-none focus:border-zinc-700 placeholder:text-zinc-600"
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  const decoded = decodeStrudelURL(e.currentTarget.value);
+                  if (decoded) {
+                    setCode(decoded);
+                    e.currentTarget.value = "";
+                  }
+                }
+              }}
+            />
+            <ActionBtn
+              label="import"
+              onClick={() => {
+                if (!urlRef.current) return;
+                const decoded = decodeStrudelURL(urlRef.current.value);
+                if (decoded) {
+                  setCode(decoded);
+                  urlRef.current.value = "";
+                }
+              }}
             />
           </div>
 

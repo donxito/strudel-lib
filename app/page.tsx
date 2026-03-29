@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef } from "react";
 import { Sketch } from "@/lib/types";
 import { useSketches } from "@/hooks/use-sketches";
 import { SketchCard } from "@/components/sketch-card";
@@ -12,15 +12,18 @@ import { ActionBtn } from "@/components/action-btn";
 type EditorState = { open: false } | { open: true; sketch: Sketch | null }; // null = new sketch
 
 export default function LibraryPage() {
-  const { sketches, allTags, loaded, addSketch, updateSketch, deleteSketch } =
+  const { sketches, allTags, allCategories, loaded, addSketch, updateSketch, deleteSketch, exportSketches, importSketches } =
     useSketches();
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [filter, setFilter] = useState<string | null>(null);
+  const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [editor, setEditor] = useState<EditorState>({ open: false });
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
   const filtered = useMemo(() => {
     return sketches.filter((s) => {
+      if (categoryFilter && s.category !== categoryFilter) return false;
       if (filter && !s.tags.includes(filter)) return false;
       if (search) {
         const q = search.toLowerCase();
@@ -32,13 +35,14 @@ export default function LibraryPage() {
       }
       return true;
     });
-  }, [sketches, filter, search]);
+  }, [sketches, filter, categoryFilter, search]);
 
   const handleSave = (data: {
     title: string;
     code: string;
     bpm: string;
     tags: string[];
+    category: string;
   }) => {
     if (editor.open && editor.sketch) {
       updateSketch(editor.sketch.id, data);
@@ -73,17 +77,54 @@ export default function LibraryPage() {
               {sketches.length} sketch{sketches.length !== 1 && "es"}
             </p>
           </div>
-          <ActionBtn
-            label="+ new sketch"
-            onClick={() => setEditor({ open: true, sketch: null })}
-            variant="primary"
-          />
+          <div className="flex gap-2 flex-wrap">
+            <ActionBtn label="export" onClick={exportSketches} />
+            <ActionBtn
+              label="import"
+              onClick={() => fileInputRef.current?.click()}
+            />
+            <ActionBtn
+              label="+ new sketch"
+              onClick={() => setEditor({ open: true, sketch: null })}
+              variant="primary"
+            />
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept=".json"
+              className="hidden"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) importSketches(file);
+                e.target.value = "";
+              }}
+            />
+          </div>
         </div>
 
         {/* Search + Tags */}
         <div className="mt-6">
           <SearchBar value={search} onChange={setSearch} />
-          <div className="flex gap-1.5 flex-wrap mt-3">
+          {allCategories.length > 0 && (
+            <div className="flex gap-1.5 flex-wrap mt-3 items-center">
+              <span className="text-[10px] text-zinc-600 font-mono uppercase tracking-wide mr-1">category</span>
+              <TagPill
+                tag="all"
+                active={!categoryFilter}
+                onClick={() => setCategoryFilter(null)}
+              />
+              {allCategories.map((cat) => (
+                <TagPill
+                  key={cat}
+                  tag={cat}
+                  active={categoryFilter === cat}
+                  onClick={() => setCategoryFilter(categoryFilter === cat ? null : cat)}
+                />
+              ))}
+            </div>
+          )}
+          <div className="flex gap-1.5 flex-wrap mt-2 items-center">
+            <span className="text-[10px] text-zinc-600 font-mono uppercase tracking-wide mr-1">tags</span>
             <TagPill
               tag="all"
               active={!filter}

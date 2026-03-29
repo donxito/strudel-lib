@@ -63,14 +63,65 @@ export function useSketches() {
     [sketches, persist]
   );
 
+  const exportSketches = useCallback(() => {
+    const json = JSON.stringify(sketches, null, 2);
+    const blob = new Blob([json], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `strudel-library-${new Date().toISOString().slice(0, 10)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }, [sketches]);
+
+  const importSketches = useCallback(
+    (file: File) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const data = JSON.parse(reader.result as string);
+          if (!Array.isArray(data)) throw new Error("Invalid format");
+          const valid = data.filter(
+            (s: unknown): s is Sketch =>
+              typeof s === "object" &&
+              s !== null &&
+              typeof (s as Sketch).title === "string" &&
+              typeof (s as Sketch).code === "string"
+          );
+          if (valid.length === 0) return;
+          // Merge: skip duplicates by id, prepend new ones
+          const existingIds = new Set(sketches.map((s) => s.id));
+          const newSketches = valid
+            .map((s) => ({
+              ...s,
+              id: s.id && !existingIds.has(s.id) ? s.id : generateId(),
+              created: s.created ?? Date.now(),
+              tags: Array.isArray(s.tags) ? s.tags : [],
+              bpm: s.bpm ?? "",
+              category: s.category ?? "",
+            }));
+          persist([...newSketches, ...sketches]);
+        } catch (e) {
+          console.error("Failed to import sketches:", e);
+        }
+      };
+      reader.readAsText(file);
+    },
+    [sketches, persist]
+  );
+
   const allTags = [...new Set(sketches.flatMap((s) => s.tags))].sort();
+  const allCategories = [...new Set(sketches.map((s) => s.category).filter(Boolean))].sort();
 
   return {
     sketches,
     allTags,
+    allCategories,
     loaded,
     addSketch,
     updateSketch,
     deleteSketch,
+    exportSketches,
+    importSketches,
   };
 }

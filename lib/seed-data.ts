@@ -9,6 +9,7 @@ export const STARTER_SKETCHES: Sketch[] = [
     title: "Deep House Foundation",
     tags: ["house", "drums", "bass"],
     bpm: "132",
+    category: "beats",
     created: T0 - 86400000 * 3,
     code: `setcps(0.55)
 stack(
@@ -41,6 +42,7 @@ stack(
     title: "Bonobo Drift",
     tags: ["downtempo", "ambient", "organic"],
     bpm: "96",
+    category: "ambient",
     created: T0 - 86400000 * 2,
     code: `setcps(0.4)
 stack(
@@ -72,6 +74,7 @@ stack(
     title: "Minimal Kick",
     tags: ["minimal", "drums"],
     bpm: "120",
+    category: "beats",
     created: T0 - 86400000,
     code: `setcps(0.5)
 s("bd sd hh cp").bank("RolandTR808")`,

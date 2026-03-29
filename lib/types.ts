@@ -4,5 +4,6 @@ export interface Sketch {
   code: string;
   tags: string[];
   bpm: string;
+  category: string;
   created: number;
 }

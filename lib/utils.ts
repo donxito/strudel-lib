@@ -4,7 +4,7 @@ export function cn(...classes: (string | boolean | undefined | null)[]): string 
 }
 
 export function generateId(): string {
-  return Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+  return crypto.randomUUID();
 }
 
 export function encodeStrudelURL(code: string): string {
@@ -17,6 +17,22 @@ export function encodeStrudelURL(code: string): string {
     return `https://strudel.cc/#${encoded}`;
   } catch {
     return "https://strudel.cc/";
+  }
+}
+
+export function decodeStrudelURL(url: string): string | null {
+  try {
+    const hash = url.includes("#") ? url.split("#")[1] : url;
+    if (!hash) return null;
+    const decoded = decodeURIComponent(
+      atob(hash)
+        .split("")
+        .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+        .join("")
+    );
+    return decoded || null;
+  } catch {
+    return null;
   }
 }
 
