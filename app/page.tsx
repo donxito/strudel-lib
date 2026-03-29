@@ -10,6 +10,7 @@ import { NicknamePrompt } from "@/components/nickname-prompt";
 import { SearchBar } from "@/components/search-bar";
 import { TagPill } from "@/components/tag-pill";
 import { ActionBtn } from "@/components/action-btn";
+import { ReferenceModal } from "@/components/reference-modal";
 
 type EditorState = { open: false } | { open: true; sketch: Sketch | null }; // null = new sketch
 
@@ -23,6 +24,7 @@ export default function LibraryPage() {
   const [search, setSearch] = useState("");
   const [editor, setEditor] = useState<EditorState>({ open: false });
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [showReference, setShowReference] = useState(false);
 
   const filtered = useMemo(() => {
     return sketches.filter((s) => {
@@ -92,6 +94,7 @@ export default function LibraryPage() {
             </p>
           </div>
           <div className="flex gap-2 flex-wrap">
+            <ActionBtn label="reference" onClick={() => setShowReference(true)} />
             <ActionBtn label="export" onClick={exportSketches} />
             <ActionBtn
               label="import"
@@ -191,6 +194,11 @@ export default function LibraryPage() {
           onSave={handleSave}
           onClose={() => setEditor({ open: false })}
         />
+      )}
+
+      {/* Reference Modal */}
+      {showReference && (
+        <ReferenceModal onClose={() => setShowReference(false)} />
       )}
     </div>
   );
