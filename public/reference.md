@@ -454,6 +454,7 @@ All notes in these scales sound good together. Pick one and stick to it.
 
 ```
 Pentatonic minor: c  eb  f  g  bb     ← can't go wrong, always sounds good
+Pentatonic major: c  d  e  g  a      ← same safety net but bright/warm (Emancipator vibes)
 Natural minor:    c  d  eb  f  g  ab  bb  ← moody, deep, Moderat/Apparat
 Blues:            c  eb  f  f#  g  bb  ← classic blues/soul feel
 Major:           c  d  e  f  g  a  b  ← bright, uplifting
@@ -479,6 +480,12 @@ note("[g2,bb2,d3,f3]"); // Gm7
 note("[c3,e3,g3]"); // C
 note("[f2,a2,c3]"); // F
 note("[g2,b2,d3]"); // G
+
+// major 7ths (warm, cinematic, Emancipator/Nym sunny side)
+note("[c3,e3,g3,b3]"); // Cmaj7
+note("[f2,a2,c3,e3]"); // Fmaj7
+note("[a2,c3,e3,g3]"); // Am7
+note("[d3,f3,a3,c4]"); // Dm7
 ```
 
 ### Classic Progressions
@@ -495,6 +502,12 @@ note("<[c3,eb3,g3] [ab2,c3,eb3] [f2,ab2,c3] [g2,bb2,d3]>");
 
 // uplifting (Thylacine)
 note("<[c3,eb3,g3,bb3] [f3,ab3,c4] [g3,bb3,d4]>");
+
+// warm cinematic trip-hop (Emancipator, Nym sunny side)
+note("<[c3,e3,g3,b3] [f2,a2,c3,e3] [a2,c3,e3,g3] [d3,f3,a3,c4]>");
+
+// dark trip-hop (Massive Attack, Portishead)
+note("<[c3,eb3,g3] [ab2,c3,eb3]>").slow(2);
 ```
 
 ### Classic Drum Patterns
@@ -514,6 +527,12 @@ s("bd ~ bd ~ ~ bd ~ ~, ~ cp, hh*16");
 
 // trip-hop / MPC boom-bap (Nym, Apanemic)
 s("bd ~ ~ bd ~ ~ bd ~, ~ ~ sd ~, hh(5,8)");
+
+// sparse menacing (Massive Attack)
+s("bd ~ ~ ~ bd ~ ~ ~, ~ ~ ~ ~ sd ~ ~ ~, hh(3,8)");
+
+// noir / broken (Portishead)
+s("bd ~ bd ~ ~ ~ bd ~, ~ ~ sd? ~, hh(5,8)");
 ```
 
 ---
@@ -607,6 +626,55 @@ hip-hop DNA and that "old record in a dusty room" warmth.
 ✓ tempo: 0.35-0.4 cps (84-96 BPM) — slower than Bonobo, classic trip-hop zone
 ```
 
+### Massive Attack Sound
+
+```
+✓ TR808 drums — deep, heavy, minimal hits
+✓ SPARSE kick patterns — "bd ~ ~ ~ bd ~ ~ ~" — the silence IS the track
+✓ one snare hit with big roomsize(5) reverb — cavernous crack
+✓ sine sub-bass with shape(0.4) — the bass should feel physical
+✓ barely any notes in the bass — 2-3 per cycle max, let them ring
+✓ one dark chord that barely moves — just sits there and broods
+✓ sawtooth pad through very dark lpf (200-1200 range)
+✓ melody is optional — when it's there, degradeBy(0.6) so it's mostly fragments
+✓ delay does the heavy lifting — delayfeedback(0.6) for long tails
+✓ everything saturated with shape() — warm, not clean
+✓ tempo: 0.33-0.37 cps (79-89 BPM) — deliberately slow, dragging
+```
+
+### Portishead Sound
+
+```
+✓ TR808 kick + CR78 snare — boom + crack
+✓ shape(0.5) on kick — really pushed, like through a cheap amp
+✓ snare with ? — when it drops out, the gap is unsettling
+✓ sometimes(fast(2)) on hats — tape-glitch-style stutters
+✓ perlin on hat lpf — some hits dull, some bright, like old vinyl
+✓ square wave bass with .vowel("o") — hollow, menacing, almost vocal
+✓ hh*16 at near-zero gain + hpf(9000) + pan(rand) — broken record player surface noise
+✓ .superimpose() on chords — ghostly delayed double transposed by a 4th or 5th
+✓ .chunk(4, rev) on melody — sounds haunted, like a sample playing backwards
+✓ natural minor scale: c d eb f g ab bb — darker than pentatonic, use ab a lot
+✓ tempo: 0.35-0.39 cps (84-94 BPM) — noir, nocturnal
+```
+
+### Emancipator / Nym Warm Sound
+
+```
+✓ RolandCR78 drums — gentle, organic, nothing aggressive
+✓ NO shape on drums — clean and soft, not saturated
+✓ hh(7,8) = almost full euclidean, busy but not mechanical, jazzy
+✓ sine bass with more melodic movement — this bass actually has a melody
+✓ release(0.2) on bass — notes fade out instead of cutting
+✓ MAJOR 7th chords — Cmaj7 → Fmaj7 → Am7 → Dm7 — this is where the warmth comes from
+✓ triangle wave for chords — softer than sawtooth
+✓ pentatonic MAJOR scale: c d e g a — same safety net as minor but bright
+✓ .off(0.125) on melody — the Emancipator thing, melodies layer on themselves
+✓ delayfeedback(0.4) — shorter tails than dark trip-hop, cleaner
+✓ shaker shimmer layer — hh*16 quiet + hpf(8000) + pan(rand) — adds air
+✓ tempo: 0.37-0.42 cps (89-101 BPM) — slightly faster than dark trip-hop
+```
+
 ---
 
 ## My Gotchas & Lessons Learned
@@ -621,6 +689,11 @@ hip-hop DNA and that "old record in a dusty room" warmth.
 8. **Pentatonic minor (c eb f g bb)** is your safety net — you literally cannot hit a wrong note
 9. **0.375 is the magic delay time** — dotted eighth. Use it everywhere.
 10. **If it sounds boring, add .jux(rev)** — instant width and interest
+11. **square wave bass + .vowel("o")** — hollow, menacing, almost vocal. great for dark trip-hop
+12. **.superimpose() on chords with .note(5) and delay** — ghostly doubled harmony, sounds like two samples stacked
+13. **pentatonic major (c d e g a)** exists — same safety net as minor but warm/hopeful instead of dark
+14. **major 7th chords change everything** — same track structure, swap minor for major 7ths, completely different mood
+15. **in trip-hop, silence is an instrument** — the gaps between kicks matter more than the kicks
 
 ---
 
