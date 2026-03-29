@@ -9,12 +9,7 @@ export function generateId(): string {
 
 export function encodeStrudelURL(code: string): string {
   try {
-    const encoded = btoa(
-      encodeURIComponent(code).replace(/%([0-9A-F]{2})/g, (_, p1) =>
-        String.fromCharCode(parseInt(p1, 16))
-      )
-    );
-    return `https://strudel.cc/#${encoded}`;
+    return `https://strudel.cc/#${btoa(code)}`;
   } catch {
     return "https://strudel.cc/";
   }
@@ -24,12 +19,7 @@ export function decodeStrudelURL(url: string): string | null {
   try {
     const hash = url.includes("#") ? url.split("#")[1] : url;
     if (!hash) return null;
-    const decoded = decodeURIComponent(
-      atob(hash)
-        .split("")
-        .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
-        .join("")
-    );
+    const decoded = atob(hash);
     return decoded || null;
   } catch {
     return null;

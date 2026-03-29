@@ -3,8 +3,10 @@
 import { useState, useMemo, useRef } from "react";
 import { Sketch } from "@/lib/types";
 import { useSketches } from "@/hooks/use-sketches";
+import { useNickname } from "@/hooks/use-nickname";
 import { SketchCard } from "@/components/sketch-card";
 import { EditorModal } from "@/components/editor-modal";
+import { NicknamePrompt } from "@/components/nickname-prompt";
 import { SearchBar } from "@/components/search-bar";
 import { TagPill } from "@/components/tag-pill";
 import { ActionBtn } from "@/components/action-btn";
@@ -12,8 +14,9 @@ import { ActionBtn } from "@/components/action-btn";
 type EditorState = { open: false } | { open: true; sketch: Sketch | null }; // null = new sketch
 
 export default function LibraryPage() {
+  const { nickname, loaded: nicknameLoaded, setNickname, clearNickname } = useNickname();
   const { sketches, allTags, allCategories, loaded, addSketch, updateSketch, deleteSketch, exportSketches, importSketches } =
-    useSketches();
+    useSketches(nickname ?? undefined);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [filter, setFilter] = useState<string | null>(null);
   const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
@@ -56,7 +59,7 @@ export default function LibraryPage() {
     setFilter(filter === tag ? null : tag);
   };
 
-  if (!loaded) {
+  if (!loaded || !nicknameLoaded) {
     return (
       <div className="min-h-screen bg-zinc-950 flex items-center justify-center">
         <span className="text-zinc-600 font-mono text-sm">loading...</span>
@@ -64,17 +67,28 @@ export default function LibraryPage() {
     );
   }
 
+  if (!nickname) {
+    return <NicknamePrompt onSave={setNickname} />;
+  }
+
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-200">
       {/* Header */}
-      <header className="px-8 pt-10 pb-8 border-b border-zinc-800/80">
+      <header className="px-4 sm:px-8 pt-8 sm:pt-10 pb-6 sm:pb-8 border-b border-zinc-800/80">
         <div className="flex justify-between items-start gap-4 flex-wrap">
           <div>
             <h1 className="m-0 text-[13px] font-bold font-mono uppercase tracking-[4px] text-amber-500">
               strudel library
             </h1>
             <p className="mt-1.5 mb-0 text-[12px] text-zinc-600 font-mono tracking-wide">
-              {sketches.length} sketch{sketches.length !== 1 && "es"}
+              {sketches.length} sketch{sketches.length !== 1 && "es"} · by{" "}
+              <span className="text-zinc-400">{nickname}</span>
+              <button
+                onClick={clearNickname}
+                className="ml-2 text-zinc-700 hover:text-zinc-400 transition-colors cursor-pointer bg-transparent border-none font-mono text-[11px]"
+              >
+                change
+              </button>
             </p>
           </div>
           <div className="flex gap-2 flex-wrap">
@@ -143,7 +157,7 @@ export default function LibraryPage() {
       </header>
 
       {/* Sketch List */}
-      <main className="px-8 py-6 flex flex-col gap-2">
+      <main className="px-4 sm:px-8 py-4 sm:py-6 flex flex-col gap-2">
         {filtered.length === 0 && (
           <p className="text-zinc-600 text-sm text-center py-10 font-mono">
             {sketches.length === 0

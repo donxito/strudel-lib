@@ -5,5 +5,6 @@ export interface Sketch {
   tags: string[];
   bpm: string;
   category: string;
+  owner: string;
   created: number;
 }

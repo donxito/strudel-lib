@@ -45,10 +45,10 @@ export function SketchCard({
             onToggle();
           }
         }}
-        className="w-full text-left p-4 px-5 flex justify-between items-start gap-3 cursor-pointer bg-transparent border-none"
+        className="w-full text-left p-3 px-4 sm:p-4 sm:px-5 flex justify-between items-start gap-2 sm:gap-3 cursor-pointer bg-transparent border-none"
       >
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2.5 mb-2">
+          <div className="flex items-center gap-1.5 sm:gap-2.5 mb-2 flex-wrap">
             <h3 className="m-0 text-[15px] font-semibold text-zinc-200 font-mono">
               {sketch.title}
             </h3>
@@ -76,16 +76,24 @@ export function SketchCard({
             ))}
           </div>
         </div>
-        <span className="text-[11px] text-zinc-600 font-mono whitespace-nowrap opacity-50">
-          {timeAgo(sketch.created)}
-        </span>
+        <div className="flex flex-col items-end gap-0.5 shrink-0">
+          {sketch.owner && (
+            <span className="text-[11px] text-zinc-500 font-mono">
+              {sketch.owner}
+            </span>
+          )}
+          <span className="text-[11px] text-zinc-600 font-mono whitespace-nowrap opacity-50">
+            {timeAgo(sketch.created)}
+          </span>
+        </div>
       </div>
 
       {/* Expanded body */}
       {expanded && (
-        <div className="px-5 pb-4">
+        <div className="px-4 sm:px-5 pb-4">
           <CodeBlock code={sketch.code} />
-          <div className="flex gap-2 mt-3 flex-wrap">
+          <div className="grid grid-cols-2 sm:flex gap-2 mt-3 sm:flex-wrap">
+            <ActionBtn label="← back" onClick={onToggle} />
             <ActionBtn
               label={copied ? "✓ copied" : "copy code"}
               onClick={copyCode}

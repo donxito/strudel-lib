@@ -13,7 +13,7 @@ export function ActionBtn({ label, onClick, variant = "default" }: ActionBtnProp
     <button
       onClick={onClick}
       className={cn(
-        "px-3.5 py-1.5 rounded text-[11px] font-mono lowercase tracking-wide border transition-colors cursor-pointer",
+        "px-3.5 py-2 sm:py-1.5 rounded text-[11px] font-mono lowercase tracking-wide border transition-colors cursor-pointer",
         variant === "primary" &&
           "bg-amber-500 text-zinc-950 border-transparent hover:bg-amber-400",
         variant === "danger" &&

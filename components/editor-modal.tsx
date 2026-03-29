@@ -49,12 +49,12 @@ export function EditorModal({ sketch, onSave, onClose }: EditorModalProps) {
 
   return (
     <div
-      className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-5"
+      className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-end sm:items-center justify-center z-50 p-0 sm:p-5"
       onClick={onClose}
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="bg-zinc-950 border border-zinc-800 rounded-lg w-full max-w-[640px] max-h-[90vh] overflow-auto p-7"
+        className="bg-zinc-950 border border-zinc-800 rounded-t-lg sm:rounded-lg w-full max-w-[640px] max-h-[95vh] sm:max-h-[90vh] overflow-auto p-5 sm:p-7"
       >
         <h2 className="m-0 mb-6 text-sm font-mono uppercase tracking-[3px] text-amber-500">
           {sketch ? "edit sketch" : "new sketch"}
@@ -62,25 +62,27 @@ export function EditorModal({ sketch, onSave, onClose }: EditorModalProps) {
 
         <div className="flex flex-col gap-4">
           {/* Title + BPM + Category */}
-          <div className="flex gap-3">
+          <div className="flex flex-col sm:flex-row gap-3">
             <input
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="sketch title"
               className="flex-1 px-3.5 py-2.5 bg-zinc-900 border border-zinc-800 rounded text-sm font-mono text-zinc-200 outline-none focus:border-zinc-700 placeholder:text-zinc-600"
             />
-            <input
-              value={bpm}
-              onChange={(e) => setBpm(e.target.value)}
-              placeholder="bpm"
-              className="w-20 px-3.5 py-2.5 bg-zinc-900 border border-zinc-800 rounded text-sm font-mono text-zinc-200 outline-none focus:border-zinc-700 placeholder:text-zinc-600"
-            />
-            <input
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              placeholder="category"
-              className="w-32 px-3.5 py-2.5 bg-zinc-900 border border-zinc-800 rounded text-sm font-mono text-zinc-200 outline-none focus:border-zinc-700 placeholder:text-zinc-600"
-            />
+            <div className="flex gap-3">
+              <input
+                value={bpm}
+                onChange={(e) => setBpm(e.target.value)}
+                placeholder="bpm"
+                className="w-20 px-3.5 py-2.5 bg-zinc-900 border border-zinc-800 rounded text-sm font-mono text-zinc-200 outline-none focus:border-zinc-700 placeholder:text-zinc-600"
+              />
+              <input
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                placeholder="category"
+                className="flex-1 sm:w-32 sm:flex-none px-3.5 py-2.5 bg-zinc-900 border border-zinc-800 rounded text-sm font-mono text-zinc-200 outline-none focus:border-zinc-700 placeholder:text-zinc-600"
+              />
+            </div>
           </div>
 
           {/* Tags */}

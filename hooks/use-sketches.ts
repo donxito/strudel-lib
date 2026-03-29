@@ -7,7 +7,7 @@ import { STARTER_SKETCHES } from "@/lib/seed-data";
 
 const STORAGE_KEY = "strudel-sketches";
 
-export function useSketches() {
+export function useSketches(owner?: string) {
   const [sketches, setSketches] = useState<Sketch[]>([]);
   const [loaded, setLoaded] = useState(false);
 
@@ -37,10 +37,11 @@ export function useSketches() {
   }, []);
 
   const addSketch = useCallback(
-    (data: Omit<Sketch, "id" | "created">) => {
+    (data: Omit<Sketch, "id" | "created" | "owner">) => {
       const sketch: Sketch = {
         ...data,
         id: generateId(),
+        owner: owner ?? "",
         created: Date.now(),
       };
       persist([sketch, ...sketches]);
@@ -99,6 +100,7 @@ export function useSketches() {
               tags: Array.isArray(s.tags) ? s.tags : [],
               bpm: s.bpm ?? "",
               category: s.category ?? "",
+              owner: s.owner ?? "",
             }));
           persist([...newSketches, ...sketches]);
         } catch (e) {

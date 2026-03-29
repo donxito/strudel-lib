@@ -16,7 +16,7 @@ export function TagPill({ tag, active, removable, onClick, onRemove }: TagPillPr
     <span
       onClick={onClick}
       className={cn(
-        "inline-flex items-center gap-1 px-2.5 py-0.5 rounded-sm text-[11px] font-mono uppercase tracking-wider border transition-colors",
+        "inline-flex items-center gap-1 px-2.5 py-1 sm:py-0.5 rounded-sm text-[11px] font-mono uppercase tracking-wider border transition-colors",
         onClick && "cursor-pointer",
         active
           ? "bg-amber-500 text-zinc-950 border-amber-500"
