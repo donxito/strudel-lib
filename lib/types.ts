@@ -6,5 +6,5 @@ export interface Sketch {
   bpm: string;
   category: string;
   owner: string;
-  created: number;
+  created_at: string;
 }

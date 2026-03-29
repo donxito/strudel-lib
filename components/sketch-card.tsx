@@ -10,6 +10,7 @@ import { ActionBtn } from "./action-btn";
 interface SketchCardProps {
   sketch: Sketch;
   expanded: boolean;
+  currentUser: string;
   onToggle: () => void;
   onEdit: (sketch: Sketch) => void;
   onDelete: (id: string) => void;
@@ -19,6 +20,7 @@ interface SketchCardProps {
 export function SketchCard({
   sketch,
   expanded,
+  currentUser,
   onToggle,
   onEdit,
   onDelete,
@@ -83,7 +85,7 @@ export function SketchCard({
             </span>
           )}
           <span className="text-[11px] text-zinc-600 font-mono whitespace-nowrap opacity-50">
-            {timeAgo(sketch.created)}
+            {timeAgo(sketch.created_at)}
           </span>
         </div>
       </div>
@@ -105,12 +107,16 @@ export function SketchCard({
               }
               variant="primary"
             />
-            <ActionBtn label="edit" onClick={() => onEdit(sketch)} />
-            <ActionBtn
-              label="delete"
-              onClick={() => onDelete(sketch.id)}
-              variant="danger"
-            />
+            {currentUser === sketch.owner && (
+              <>
+                <ActionBtn label="edit" onClick={() => onEdit(sketch)} />
+                <ActionBtn
+                  label="delete"
+                  onClick={() => onDelete(sketch.id)}
+                  variant="danger"
+                />
+              </>
+            )}
           </div>
         </div>
       )}

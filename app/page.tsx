@@ -170,6 +170,7 @@ export default function LibraryPage() {
             key={sketch.id}
             sketch={sketch}
             expanded={expandedId === sketch.id}
+            currentUser={nickname}
             onToggle={() =>
               setExpandedId(expandedId === sketch.id ? null : sketch.id)
             }
