@@ -95,7 +95,7 @@ export default function LibraryPage() {
           </div>
           <div className="flex flex-col sm:flex-row gap-2 items-end sm:items-start">
             <div className="flex gap-2">
-              <ActionBtn label="ref" onClick={() => setShowReference(true)} />
+              <ActionBtn label="ref" onClick={() => setShowReference(true)} variant="primary" />
               <ActionBtn label="export" onClick={exportSketches} />
               <ActionBtn
                 label="import"
