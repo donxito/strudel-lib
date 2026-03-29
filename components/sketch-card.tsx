@@ -51,7 +51,7 @@ export function SketchCard({
       >
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-1.5 sm:gap-2.5 mb-2 flex-wrap">
-            <h3 className="m-0 text-[15px] font-semibold text-zinc-200 font-mono">
+            <h3 className="m-0 text-[13px] sm:text-[15px] font-semibold text-zinc-200 font-mono truncate max-w-[200px] sm:max-w-none">
               {sketch.title}
             </h3>
             {sketch.category && (

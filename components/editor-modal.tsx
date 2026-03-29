@@ -110,7 +110,7 @@ export function EditorModal({ sketch, onSave, onClose }: EditorModalProps) {
           <div className="flex gap-2">
             <input
               ref={urlRef}
-              placeholder="paste strudel.cc link to import code"
+              placeholder="paste strudel.cc link"
               className="flex-1 px-3.5 py-2.5 bg-zinc-900 border border-zinc-800 rounded text-sm font-mono text-zinc-200 outline-none focus:border-zinc-700 placeholder:text-zinc-600"
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
@@ -142,7 +142,7 @@ export function EditorModal({ sketch, onSave, onClose }: EditorModalProps) {
             onChange={(e) => setCode(e.target.value)}
             placeholder="paste your strudel code here"
             spellCheck={false}
-            className="w-full min-h-[240px] px-3.5 py-2.5 bg-zinc-900 border border-zinc-800 rounded text-[12px] font-mono leading-relaxed text-zinc-200 outline-none focus:border-zinc-700 placeholder:text-zinc-600 resize-y whitespace-pre"
+            className="w-full min-h-[160px] sm:min-h-[240px] px-3.5 py-2.5 bg-zinc-900 border border-zinc-800 rounded text-[12px] font-mono leading-relaxed text-zinc-200 outline-none focus:border-zinc-700 placeholder:text-zinc-600 resize-y whitespace-pre"
             style={{ tabSize: 2 }}
             onKeyDown={(e) => {
               if (e.key === "Tab") {

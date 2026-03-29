@@ -93,13 +93,15 @@ export default function LibraryPage() {
               </button>
             </p>
           </div>
-          <div className="flex gap-2 flex-wrap">
-            <ActionBtn label="reference" onClick={() => setShowReference(true)} />
-            <ActionBtn label="export" onClick={exportSketches} />
-            <ActionBtn
-              label="import"
-              onClick={() => fileInputRef.current?.click()}
-            />
+          <div className="flex flex-col sm:flex-row gap-2 items-end sm:items-start">
+            <div className="flex gap-2">
+              <ActionBtn label="ref" onClick={() => setShowReference(true)} />
+              <ActionBtn label="export" onClick={exportSketches} />
+              <ActionBtn
+                label="import"
+                onClick={() => fileInputRef.current?.click()}
+              />
+            </div>
             <ActionBtn
               label="+ new sketch"
               onClick={() => setEditor({ open: true, sketch: null })}
