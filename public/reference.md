@@ -511,6 +511,9 @@ s("bd ~ ~ ~, ~ ~ sd ~, hh*4");
 
 // syncopated (Moderat)
 s("bd ~ bd ~ ~ bd ~ ~, ~ cp, hh*16");
+
+// trip-hop / MPC boom-bap (Nym, Apanemic)
+s("bd ~ ~ bd ~ ~ bd ~, ~ ~ sd ~, hh(5,8)");
 ```
 
 ---
@@ -576,6 +579,32 @@ s("bd ~ bd ~ ~ bd ~ ~, ~ cp, hh*16");
 ✓ sawtooth arps with moving filter + resonance
 ✓ .rotate() on euclidean patterns
 ✓ tempo: 0.5-0.55 cps
+```
+
+### Nym / Apanemic Sound (Cinematic Trip-Hop)
+
+Both are MPC-based, sample-digging producers. Nym (Alaska/Durham NC) blends vinyl samples
+with live instruments for cinematic, introspective downtempo. Apanemic (Ioannina, Greece)
+uses an Akai MPC 2000XL sampling strictly from old vinyl — dusty, groovy, retro hip-hop
+instrumentals. Both sit in the Bonobo/Emancipator/Portishead neighborhood but with more
+hip-hop DNA and that "old record in a dusty room" warmth.
+
+```
+✓ TR808 kick + CR78 snare/hats — deep boom + dusty textures
+✓ NOT four-on-the-floor — hip-hop spacing: "bd ~ ~ bd, ~ ~ bd ~" or "bd ~ ~ bd ~ ~ bd ~"
+✓ halftime snare: "~ ~ sd ~" — beat 3 only, with room reverb tail
+✓ .shape(0.2-0.3) on everything — warm tape saturation, MPC-through-vinyl feel
+✓ perlin on hat gain — finger-drummed MPC dynamics
+✓ .sometimes(fast(2)) on hats — occasional MPC stutter/roll
+✓ sine bass, NOT sawtooth — pure sub weight, simple bouncy lines with gaps
+✓ minor 7th chords on sine/triangle — dusty jazz-sample feeling
+✓ .degradeBy(0.2-0.5) on melodies — chopped sample fragments, not full phrases
+✓ .off(0.125, ...) on melody — ghostly echo of the chop, like a second sample layer
+✓ delaytime(0.375) — dotted eighth, dub-influenced delay tails
+✓ high room reverb on atmosphere layers — cinematic depth
+✓ hh*16 at very low gain + hpf(8000) + pan(rand) — vinyl crackle/room shimmer texture
+✓ pentatonic minor — c eb f g bb (everything fits, nothing clashes)
+✓ tempo: 0.35-0.4 cps (84-96 BPM) — slower than Bonobo, classic trip-hop zone
 ```
 
 ---
